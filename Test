@@ -1,5 +1,5 @@
 /**
- * Write a description of class MovingRectangle here.
+ * Write a description of class Ball here.
  * 
  * @author (your name) 
  * @version (a version number or a date)
@@ -8,15 +8,16 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 //import java.util.Scanner;
-public class MovingRectangle extends JComponent
+public class Ball extends JComponent
 {
     private Rectangle rect;
-    private int x = 0;
+    private int x = 1;
     private int y = 100;
     private int width = 100;
     private int height = 100;
+    private boolean right = true;
     
-    public MovingRectangle()
+    public Ball()
     {
         rect = new Rectangle(x,y,width,height);
     }
@@ -27,10 +28,49 @@ public class MovingRectangle extends JComponent
         g2.draw(rect);
     }
     
-    public void moveBy (int x, int y)
+    public void moveBy (int xx, int yy)
     {
-        rect.translate(x,y);
+        if (right)
+        {
+            rect.translate(xx,yy);
+            repaint();
+        }
+        else
+        {
+            rect.translate(-xx,yy);
+            repaint();
+        }
         repaint(); //recalls the paintComponent method
+    }
+    
+    public void setBoolean()
+    {
+        right = !right;
+    }
+    
+    public boolean isRight()
+    {
+        return right;
+    }
+    
+    public int xCoord()
+    {
+        if (right)
+        {
+            return (int)rect.getX() + 100;
+        }
+        else
+        {
+            return (int)rect.getX();
+        }
+    }
+    
+    public void checkBounds()
+    {
+        if (xCoord() >= 1000 || xCoord() <= 0)
+        {
+            setBoolean();
+        }
     }
     
     public static void main (String args[])
@@ -38,7 +78,7 @@ public class MovingRectangle extends JComponent
         JFrame frame = new JFrame();
         frame.setSize(1000,1000);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        MovingRectangle rect = new MovingRectangle();
+        Ball rect = new Ball();
         frame.add(rect);
         frame.setVisible(true);
         
@@ -46,13 +86,13 @@ public class MovingRectangle extends JComponent
         {
             public void actionPerformed(ActionEvent event)
             {
-                if ()
+                rect.checkBounds();
                 rect.moveBy(1,0);
             }
         }
         
         ActionListener listener = new TimerListener();
-        Timer t = new Timer(10, listener); //delays by 500 milliseconds
+        Timer t = new Timer(1, listener); //delays by 500 milliseconds
         t.start();
     }
 }
