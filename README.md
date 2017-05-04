@@ -4,33 +4,33 @@ Pong
 
 I. Hitboxes And Trajectories
 
-  1. Ball (object)
-  2. Boundary walls (parameter)
-  3. Goals (parameter)
-  4. Paddles (object)
+  a. Ball (object)
+  b. Boundary walls (parameter)
+  c. Goals (parameter)
+  d. Paddles (object)
   
-    a. Multiple hitboxes on paddle to change change angle
+    1. Multiple hitboxes on paddle to change change angle
   
 II. Scoring
 
-  1. Goals
+  a. Goals
   
-    a. Score increment
+    1. Score increment
     
 III. Events 
 
-  1. Keystroke detection
+  a. Keystroke detection
   
-    a. Paddle movement
-    b. Pause
-  2. Ball movement
-  3. Menu Options
+    1. Paddle movement
+    2. Pause
+  b. Ball movement
+  c. Menu Options
   
 IV. Graphics
   
-  1. Rectangles
+  a. Rectangles
   
-    a. Ball
-    b. Paddles
-  2. Score display
+    1. Ball
+    2. Paddles
+  b. Score display
   
