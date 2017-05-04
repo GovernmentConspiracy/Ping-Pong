@@ -12,10 +12,11 @@ public class Ball extends JComponent
 {
     private Rectangle rect;
     private int x = 1;
-    private int y = 100;
-    private int width = 100;
-    private int height = 100;
+    private int y = 101;
+    private final int width = 100;
+    private final int height = 100;
     private boolean right = true;
+    private boolean up = true;
     
     public Ball()
     {
@@ -30,16 +31,15 @@ public class Ball extends JComponent
     
     public void moveBy (int xx, int yy)
     {
-        if (right)
+        if (right == false)
         {
-            rect.translate(xx,yy);
-            repaint();
+            xx = -xx;
         }
-        else
+        if (up == false)
         {
-            rect.translate(-xx,yy);
-            repaint();
+            yy = -yy;
         }
+        rect.translate(xx,yy);
         repaint(); //recalls the paintComponent method
     }
     
@@ -48,25 +48,41 @@ public class Ball extends JComponent
         right = !right;
     }
     
-    public boolean isRight()
+    public void setUpBoolean()
     {
-        return right;
+        up = !up;
     }
     
     public int xCoord()
     {
         if (right)
         {
-            return (int)rect.getX() + 100;
+            return (int)rect.x + width;
         }
         else
         {
-            return (int)rect.getX();
+            return (int)rect.x;
+        }
+    }
+    
+     public int yCoord()
+    {
+        if (up)
+        {
+            return (int)rect.y;
+        }
+        else
+        {
+            return (int)rect.y + height;
         }
     }
     
     public void checkBounds()
     {
+        if (yCoord() >= 1000 || yCoord() <= 0)
+        {
+            setUpBoolean();
+        }
         if (xCoord() >= 1000 || xCoord() <= 0)
         {
             setBoolean();
@@ -92,7 +108,7 @@ public class Ball extends JComponent
         }
         
         ActionListener listener = new TimerListener();
-        Timer t = new Timer(1, listener); //delays by 500 milliseconds
+        Timer t = new Timer(0, listener); //delays by 500 milliseconds
         t.start();
     }
 }
