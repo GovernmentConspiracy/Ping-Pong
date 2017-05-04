@@ -7,7 +7,6 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-//import java.util.Scanner;
 public class Ball extends JComponent
 {
     private Rectangle rect;
@@ -65,7 +64,7 @@ public class Ball extends JComponent
         }
     }
     
-     public int yCoord()
+    public int yCoord()
     {
         if (up)
         {
@@ -89,6 +88,9 @@ public class Ball extends JComponent
         }
     }
     
+    /**
+     * This should be in a different class, so that everything can be added.
+     */
     public static void main (String args[])
     {
         JFrame frame = new JFrame();
