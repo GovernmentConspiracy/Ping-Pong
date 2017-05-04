@@ -35,7 +35,7 @@ public class Ball extends JComponent
         {
             xx = -xx;
         }
-        if (up == false)
+        if (up == true)
         {
             yy = -yy;
         }
@@ -79,11 +79,11 @@ public class Ball extends JComponent
     
     public void checkBounds()
     {
-        if (yCoord() >= 1000 || yCoord() <= 0)
+        if (yCoord() >= 600 || yCoord() == 0)
         {
             setUpBoolean();
         }
-        if (xCoord() >= 1000 || xCoord() <= 0)
+        if (xCoord() >= 600 || xCoord() == 0)
         {
             setBoolean();
         }
@@ -92,7 +92,7 @@ public class Ball extends JComponent
     public static void main (String args[])
     {
         JFrame frame = new JFrame();
-        frame.setSize(1000,1000);
+        frame.setSize(600,600);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Ball rect = new Ball();
         frame.add(rect);
@@ -103,7 +103,7 @@ public class Ball extends JComponent
             public void actionPerformed(ActionEvent event)
             {
                 rect.checkBounds();
-                rect.moveBy(1,0);
+                rect.moveBy(1,1);
             }
         }
         
