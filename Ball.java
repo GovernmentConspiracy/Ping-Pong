@@ -10,16 +10,13 @@ import java.awt.event.*;
 public class Ball extends JComponent
 {
     private Rectangle rect;
-    private int x = 1;
-    private int y = 101;
-    private final int width = 100;
-    private final int height = 100;
     private boolean right = true;
     private boolean up = true;
     
+    
     public Ball()
     {
-        rect = new Rectangle(x,y,width,height);
+        rect = new Rectangle(4,5,5,5);
     }
     
     public void paintComponent (Graphics g)
@@ -56,7 +53,7 @@ public class Ball extends JComponent
     {
         if (right)
         {
-            return (int)rect.x + width;
+            return (int)rect.x + rect.width;
         }
         else
         {
@@ -72,17 +69,17 @@ public class Ball extends JComponent
         }
         else
         {
-            return (int)rect.y + height;
+            return (int)rect.y + rect.height;
         }
     }
     
-    public void checkBounds()
+    public void checkBounds(int w, int h)
     {
-        if (yCoord() >= 600 || yCoord() == 0)
+        if (yCoord() >= h || yCoord() <= 0)
         {
             setUpBoolean();
         }
-        if (xCoord() >= 600 || xCoord() == 0)
+        if (xCoord() >= w || xCoord() <= 0)
         {
             setBoolean();
         }
@@ -91,7 +88,7 @@ public class Ball extends JComponent
     /**
      * This should be in a different class, so that everything can be added.
      */
-    public static void main (String args[])
+    public static void main (String[] args)
     {
         JFrame frame = new JFrame();
         frame.setSize(600,600);
@@ -99,18 +96,18 @@ public class Ball extends JComponent
         Ball rect = new Ball();
         frame.add(rect);
         frame.setVisible(true);
-        
+        System.out.print(frame.WIDTH);
         class TimerListener implements ActionListener
         {
             public void actionPerformed(ActionEvent event)
             {
-                rect.checkBounds();
-                rect.moveBy(1,1);
+                rect.checkBounds(frame.WIDTH, frame.HEIGHT);
+                rect.moveBy(1,2);
             }
         }
         
         ActionListener listener = new TimerListener();
-        Timer t = new Timer(0, listener); //delays by 500 milliseconds
+        Timer t = new Timer(1, listener); //delays by some milliseconds
         t.start();
     }
 }
