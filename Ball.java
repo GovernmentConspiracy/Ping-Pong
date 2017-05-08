@@ -96,13 +96,13 @@ public class Ball extends JComponent
         Ball rect = new Ball();
         frame.add(rect);
         frame.setVisible(true);
-        System.out.print(frame.WIDTH);
+        //System.out.print(frame.WIDTH);
         class TimerListener implements ActionListener
         {
             public void actionPerformed(ActionEvent event)
             {
-                rect.checkBounds(frame.WIDTH, frame.HEIGHT);
-                rect.moveBy(1,2);
+                rect.checkBounds(frame.getWidth(), frame.getHeight());
+                rect.moveBy(4,2);
             }
         }
         
