@@ -1,0 +1,48 @@
+import java.awt.event.*;
+import javax.swing.*;
+/**
+ * Write a description of class Key here.
+ * 
+ * @author (your name) 
+ * @version (a version number or a date)
+ */
+public class Key extends JComponent implements KeyListener
+{
+    public int num = 0;
+    public void keyPressed(KeyEvent e)
+    {
+        int key = e.getKeyCode();
+        if(key == KeyEvent.VK_DOWN){
+            num++;
+            System.out.println(num);
+            
+            
+        }
+        if(key == KeyEvent.VK_UP)
+        {
+            System.out.println(num--);
+            
+        }
+        
+    }
+    
+    public void keyReleased(KeyEvent e)
+    {
+        
+    }
+    
+    public void keyTyped(KeyEvent e)
+    {
+       
+    }
+    
+    public static void main(String args[])
+    {
+        JFrame frame = new JFrame("KEYS");
+        frame.setSize(100,100);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.addKeyListener(new Key());
+        frame.setVisible(true);
+    }
+}
+
