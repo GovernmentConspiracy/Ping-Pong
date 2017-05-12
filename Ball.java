@@ -10,13 +10,16 @@ import java.awt.event.*;
 public class Ball extends JComponent
 {
     private Rectangle rect;
+    private int x = 1;
+    private int y = 101;
+    private final int width = 27;
+    private final int height = 27;
     private boolean right = true;
     private boolean up = true;
     
-    
     public Ball()
     {
-        rect = new Rectangle(4,5,5,5);
+        rect = new Rectangle(x,y,width,height);
     }
     
     public void paintComponent (Graphics g)
@@ -36,7 +39,7 @@ public class Ball extends JComponent
             yy = -yy;
         }
         rect.translate(xx,yy);
-        repaint(); //recalls the paintComponent method
+        repaint();
     }
     
     public void setBoolean()
@@ -53,7 +56,7 @@ public class Ball extends JComponent
     {
         if (right)
         {
-            return (int)rect.x + rect.width;
+            return (int)rect.x + width;
         }
         else
         {
@@ -69,17 +72,17 @@ public class Ball extends JComponent
         }
         else
         {
-            return (int)rect.y + rect.height;
+            return (int)rect.y + height;
         }
     }
     
-    public void checkBounds(int w, int h)
+    public void checkBounds(int fHeight, int fWidth)
     {
-        if (yCoord() >= h || yCoord() <= 0)
+        if (yCoord() + 27 >= fHeight || yCoord() == 0)
         {
             setUpBoolean();
         }
-        if (xCoord() >= w || xCoord() <= 0)
+        if (xCoord() + 7 >= fWidth || xCoord() == 0)
         {
             setBoolean();
         }
@@ -88,26 +91,26 @@ public class Ball extends JComponent
     /**
      * This should be in a different class, so that everything can be added.
      */
-    public static void main (String[] args)
+    public static void main (String args[])
     {
         JFrame frame = new JFrame();
         frame.setSize(600,600);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Ball rect = new Ball();
-        frame.add(rect);
+        Ball circle = new Ball();
+        frame.add(circle);
         frame.setVisible(true);
-        //System.out.print(frame.WIDTH);
+        
         class TimerListener implements ActionListener
         {
             public void actionPerformed(ActionEvent event)
             {
-                rect.checkBounds(frame.getWidth(), frame.getHeight());
-                rect.moveBy(4,2);
+                circle.checkBounds(frame.getHeight(), frame.getWidth());
+                circle.moveBy(1,1);
             }
         }
         
         ActionListener listener = new TimerListener();
-        Timer t = new Timer(1, listener); //delays by some milliseconds
+        Timer t = new Timer(1, listener);
         t.start();
     }
 }
