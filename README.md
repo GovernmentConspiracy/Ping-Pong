@@ -34,3 +34,20 @@ IV. Graphics
     b Paddles
   2. Score display
   
+Game
+    Ball speed
+    Bounds[]
+    Bounds checkBounds()
+    Paddle checkWin()
+    
+    Ball(int frameHeight, int frameWidth, double mag)
+        double speed
+        Rectangle
+        double [] vector
+        double [] reflect()
+        void setVector()
+    Bounds(int frameHeight, int frameWidth)
+        int[] reflector
+        Rectangle
+    Paddle(int frameHeight, int frameWidth) extends Bounds
+        void move
