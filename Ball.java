@@ -87,30 +87,4 @@ public class Ball extends JComponent
             setBoolean();
         }
     }
-    
-    /**
-     * This should be in a different class, so that everything can be added.
-     */
-    public static void main (String args[])
-    {
-        JFrame frame = new JFrame();
-        frame.setSize(600,600);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Ball circle = new Ball();
-        frame.add(circle);
-        frame.setVisible(true);
-        
-        class TimerListener implements ActionListener
-        {
-            public void actionPerformed(ActionEvent event)
-            {
-                circle.checkBounds(frame.getHeight(), frame.getWidth());
-                circle.moveBy(1,1);
-            }
-        }
-        
-        ActionListener listener = new TimerListener();
-        Timer t = new Timer(1, listener);
-        t.start();
-    }
 }
