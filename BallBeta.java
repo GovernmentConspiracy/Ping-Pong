@@ -19,6 +19,15 @@ public class BallBeta
         vector = new double[] {mag*Math.cos(angle), mag*Math.sin(angle)};
     }
     
+    public boolean ifCollide(Paddle wall)
+    {
+        //if (
+        return ball.intersects(wall.getWall());
+    }
+    
+    /**
+     * Changes ball's speed to mag and keeps angle 
+     */
     public void accelerate(double mag)
     {
         double speed = getSpeed();
@@ -27,6 +36,9 @@ public class BallBeta
         }
     }
     
+    /**
+     * Returns speed
+     */
     public double getSpeed()
     {
         double mag = 0;
@@ -36,6 +48,9 @@ public class BallBeta
         return Math.pow(mag, .5);
     }
     
+    /**
+     * 
+     */
     public void setVector(double[] part){
         vector = part;
     }
