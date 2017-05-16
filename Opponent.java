@@ -7,10 +7,10 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-public class Player extends JComponent implements KeyListener
+public class Opponent extends JComponent implements KeyListener
 {
-    private Rectangle playerRect;
-    private int rectX = 10;
+    private Rectangle oppRect;
+    private int rectX = 500;
     private int rectY = 10;
     private int rectW = 10;
     private int rectH = 30;
@@ -18,14 +18,14 @@ public class Player extends JComponent implements KeyListener
     private int moveByX = 0;
     private int frameHeight;
     
-    public Player()
+    public Opponent()
     {
-        playerRect = new Rectangle(rectX,rectY,rectW,rectH);
+        oppRect = new Rectangle(rectX,rectY,rectW,rectH);
     }
     
-    public int getLeftX()
+    public int getRightX()
     {
-        return rectX;
+        return rectX+rectW;
     }
     
     public int getTop()
@@ -41,12 +41,12 @@ public class Player extends JComponent implements KeyListener
     public void paintComponent(Graphics g)
     {
         Graphics2D g2 = (Graphics2D)g;
-        g2.draw(playerRect);
+        g2.draw(oppRect);
     }
 
     public void moveByRect()
     {
-        playerRect.translate(moveByX,moveByY);
+        oppRect.translate(moveByX,moveByY);
         repaint();
     }
     
@@ -54,18 +54,18 @@ public class Player extends JComponent implements KeyListener
     {
         int key = e.getKeyCode();
         
-        if(key == KeyEvent.VK_W)
+        if(key == KeyEvent.VK_UP)
         {
             moveByY = -10;        
-            if(playerRect.y <= 0)
+            if(oppRect.y <= 0)
             {
                 moveByY = 0;
             }
         }
-        if(key == KeyEvent.VK_S)
+        if(key == KeyEvent.VK_DOWN)
         {
             moveByY = 10;    
-            if(playerRect.y >= 600) //max height of frame
+            if(oppRect.y >= 600) //max height of frame
             {
                 moveByY = 0;
             }

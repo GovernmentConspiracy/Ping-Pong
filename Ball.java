@@ -10,8 +10,8 @@ import java.awt.event.*;
 public class Ball extends JComponent
 {
     private Rectangle rect;
-    private int x = 1;
-    private int y = 101;
+    private int x = 250;
+    private int y = 250;
     private final int width = 27;
     private final int height = 27;
     private boolean right = true;
@@ -76,13 +76,13 @@ public class Ball extends JComponent
         }
     }
     
-    public void checkBounds(int fHeight, int fWidth)
+    public void checkBounds(Player a, Opponent b, int fHeight)
     {
         if (yCoord() + 27 >= fHeight || yCoord() == 0)
         {
             setUpBoolean();
         }
-        if (xCoord() + 7 >= fWidth || xCoord() == 0)
+        if (xCoord() <= b.getRightX() || xCoord() + 7 >= a.getLeftX())
         {
             setBoolean();
         }

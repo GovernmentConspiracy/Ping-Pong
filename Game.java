@@ -19,6 +19,10 @@ public class Game extends JComponent
         frame.add(playerRect);
         frame.addKeyListener(playerRect);
         frame.setVisible(true);
+        Opponent oppRect = new Opponent();
+        frame.add(oppRect);
+        frame.addKeyListener(oppRect);
+        frame.setVisible(true);
         Ball circle = new Ball();
         frame.add(circle);
         frame.setVisible(true);
@@ -28,7 +32,7 @@ public class Game extends JComponent
         {
             public void actionPerformed(ActionEvent event)
             {
-                circle.checkBounds(frame.getHeight(), frame.getWidth());
+                circle.checkBounds(playerRect, oppRect, frame.getHeight());
                 circle.moveBy(1,1);
             }
         }
