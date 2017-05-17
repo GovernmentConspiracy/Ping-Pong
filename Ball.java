@@ -10,16 +10,20 @@ import java.awt.event.*;
 public class Ball extends JComponent
 {
     private Rectangle rect;
-    private int x = 250;
-    private int y = 250;
-    private final int width = 27;
-    private final int height = 27;
+    private int midX;
+    private final int width = 10;
+    private final int height = 10;
     private boolean right = true;
     private boolean up = true;
     
-    public Ball()
+    public Ball(int midX, int midY)
     {
-        rect = new Rectangle(x,y,width,height);
+        rect = new Rectangle(midX,midY,width,height);
+    }
+    
+    public void setMid(int x)
+    {
+        midX = x/2;
     }
     
     public void paintComponent (Graphics g)
@@ -75,16 +79,22 @@ public class Ball extends JComponent
             return (int)rect.y + height;
         }
     }
+   
     
-    public void checkBounds(Player a, Opponent b, int fHeight)
+    public void letsBounce(Control c, int fHeight, int fWidth)
     {
-        if (yCoord() + 27 >= fHeight || yCoord() == 0)
-        {
-            setUpBoolean();
-        }
-        if (xCoord() <= b.getRightX() || xCoord() + 7 >= a.getLeftX())
+        int rheight = 0;
+        int count = 0;
+        if(rect.intersects(c.getRect()))
         {
             setBoolean();
+        }
+        else
+        {
+            if(yCoord() + 27 >= fHeight || yCoord() <= 0)
+            {
+                setUpBoolean();
+            }
         }
     }
 }

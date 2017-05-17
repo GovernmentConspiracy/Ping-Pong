@@ -7,25 +7,32 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-public class Opponent extends JComponent implements KeyListener
+public class Opponent extends JComponent implements KeyListener, Control
 {
     private Rectangle oppRect;
-    private int rectX = 500;
-    private int rectY = 10;
-    private int rectW = 10;
-    private int rectH = 30;
+    private int rectX;
+    private int rectY;
+    private int rectW = 1;
+    private int rectH = 50;
     private int moveByY = 0;
     private int moveByX = 0;
     private int frameHeight;
     
-    public Opponent()
+    public Opponent(int x, int y)
     {
+        rectX = x; 
+        rectY = y;
         oppRect = new Rectangle(rectX,rectY,rectW,rectH);
     }
     
     public int getRightX()
     {
         return rectX+rectW;
+    }
+    
+    public int getLeftX()
+    {
+        return rectX;
     }
     
     public int getTop()
@@ -36,6 +43,11 @@ public class Opponent extends JComponent implements KeyListener
     public int getBot()
     {
         return rectY+rectH;
+    }
+    
+    public Rectangle getRect()
+    {
+        return oppRect;
     }
     
     public void paintComponent(Graphics g)
