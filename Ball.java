@@ -11,8 +11,8 @@ public class Ball extends JComponent
 {
     private Rectangle rect;
     private int midX;
-    private final int width = 10;
-    private final int height = 10;
+    private final int width = 5;
+    private final int height = 5;
     private boolean right = true;
     private boolean up = true;
     
@@ -81,7 +81,7 @@ public class Ball extends JComponent
     }
    
     
-    public void letsBounce(Control c, int fHeight, int fWidth)
+    public int letsBounce(Control c, int fHeight, int fWidth)
     {
         int rheight = 0;
         int count = 0;
@@ -96,5 +96,20 @@ public class Ball extends JComponent
                 setUpBoolean();
             }
         }
+        if (xCoord() <= 0)
+        {
+            return -1;
+        }
+        if (xCoord() >= fWidth)
+        {
+            return 1;
+        }
+        return 0;
+    }
+    
+    public void reset(int frameX, int frameY)
+    {
+        rect.setLocation(frameX/2-5/2, frameY/2-5/2);
+        repaint();
     }
 }
