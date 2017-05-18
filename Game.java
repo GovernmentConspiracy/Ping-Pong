@@ -34,27 +34,31 @@ public class Game extends JComponent
         {
             public void actionPerformed(ActionEvent event)
             {
-                circle.setMid(frame.getHeight());
-                circle.letsBounce(oppRect, frame.getHeight(),frame.getWidth());
-                int place = circle.letsBounce(playerRect, frame.getHeight(),frame.getWidth());
-                if (place != 0) {
-                    if (place > 0) {
-                        score2++;
-                    }
-                    if (place < 0) {
-                        score1++;
-                    }
-                    System.out.println("P1: " + score1);
-                    System.out.println("P2: " + score2);
-                }
-                
-                
                 circle.moveBy(1,1);
             }
         }
         
         ActionListener listener = new TimerListener();
-        Timer t = new Timer(4, listener);
+        Timer t = new Timer(1, listener);
         t.start();
+        while (true) {
+            circle.setMid(frame.getHeight());
+            circle.letsBounce(oppRect, frame.getHeight(),frame.getWidth());
+            int place = circle.letsBounce(playerRect, frame.getHeight(),frame.getWidth());
+            if (place != 0) {
+                if (place > 0) {
+                    score1++;
+                }
+                if (place < 0) {
+                    score2++;
+                }
+                System.out.println("P1: " + score1);
+                System.out.println("P2: " + score2);
+                circle.reset(frame.getHeight(),frame.getWidth());
+                place = 0;
+            }
+            
+        }
+        
     }
 }
