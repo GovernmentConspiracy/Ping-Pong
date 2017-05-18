@@ -26,15 +26,29 @@ public class Game extends JComponent
         Ball circle = new Ball(frame.getWidth()/2, frame.getHeight()/2);
         frame.add(circle);
         frame.setVisible(true);
-        
-        
+        int score1 = 0;
+        int score2 = 0;
+        System.out.println("P1: " + score1);
+        System.out.println("P2: " + score2);
         class TimerListener implements ActionListener
         {
             public void actionPerformed(ActionEvent event)
             {
                 circle.setMid(frame.getHeight());
                 circle.letsBounce(oppRect, frame.getHeight(),frame.getWidth());
-                circle.letsBounce(playerRect, frame.getHeight(),frame.getWidth());
+                int place = circle.letsBounce(playerRect, frame.getHeight(),frame.getWidth());
+                if (place != 0) {
+                    if (place > 0) {
+                        score2++;
+                    }
+                    if (place < 0) {
+                        score1++;
+                    }
+                    System.out.println("P1: " + score1);
+                    System.out.println("P2: " + score2);
+                }
+                
+                
                 circle.moveBy(1,1);
             }
         }
