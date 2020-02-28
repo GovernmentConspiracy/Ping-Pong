@@ -1,161 +1,147 @@
-
-/**
- * Write a description of class Stage here.
- * 
- * @author (your name) 
- * @version (a version number or a date)
- */
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class Stage extends JComponent implements KeyListener
-{
-    private Ball missile;
-    private Paddle[] shields;
-    private Rectangle background;
-    private Rectangle[] walls;
-    private int top, bottom, left, right;
-    private double speed;
-    private double pSpeed;
-    public int score1, score2;
-    public Stage(int w, int h)
-    {
-        score1 = score2 = 0;
-        top = 0 + 100;
-        bottom = h - 50;
-        left = 0 + 50;
-        right = w - 50;
-        speed = 4;
-        missile = new Ball(top, bottom, left, right, speed);
-        shields = new Paddle[] {new Paddle(-1, top, bottom, left, right), 
-            new Paddle(1, top, bottom, left, right)};
-        walls = new Rectangle[] {new Rectangle(0, top, w, -50), 
-            new Rectangle(0, bottom, w, 50), 
-            new Rectangle(left, 0, -50, h), 
-            new Rectangle(right, 0, 50, h)};
-        background = new Rectangle(0,0,w,h);
-        pSpeed = 3;
-    }
-    
-    /**
-     * Moves paddles around.
-     */
-    public void run()
-    {
-        for (Paddle a: shields) {
-            a.move(top, bottom, left, right, (int)pSpeed);
-        }
-        repaint();
-    }
-    
-    public void accelerate(double deltaMag, double lim)
-    {
-        speed+=deltaMag;
-        if (speed > lim)
-            speed = lim;
-        missile.accelerate(speed);
-    }
-    
-    public int track()
-    {
-        if (missile.getBall().x <= left)
-            return 1;
-        if (missile.getBall().x >= right)
-            return -1;
-        return 0;
-    }
-    
-    public void bounce()
-    {
-        missile.cruise();
-        if (missile.getBall().y <= top|| 
-            missile.getBall().y + missile.getBall().height >= bottom) {
-            missile.setVector(missile.reflect(new double[] {1, -1}));
-        }
-            
-        for (Paddle a: shields) {
-            if (missile.isCollide(a.getWall())) {
-                missile.setVector(missile.reflect(a.getReflector()));
-            }
-        }
-    }
-    
-    public void align(int w, int h)
-    {
-        int space = 40;
-        top = 0 + 200 + space;
-        bottom = h - space;
-        left = 0 + space;
-        right = w - space;
-        walls = new Rectangle[] {new Rectangle(0, top - space, w, space), 
-            new Rectangle(0, bottom, w, space), 
-            new Rectangle(left - space, top, space, h), 
-            new Rectangle(right, top, space, h)};
-        shields = new Paddle[] {new Paddle(-1, top, bottom, left, right), 
-            new Paddle(1, top, bottom, left, right)};
-        background = new Rectangle(0,0,w,h);
-        run();
-        repaint();
-    }
-    
-    public void resetBall(int w, int h)
-    {
-        missile = new Ball(top, bottom, left, right, speed);
-        speed = 4;
-    }
-    
-    public void keyPressed(KeyEvent e)
-    {
-        int key = e.getKeyCode();
-        if(key == KeyEvent.VK_W){
-            shields[0].setDirection(-1);
-        }
-        if(key == KeyEvent.VK_S){
-            shields[0].setDirection(1);
-        }
-        if(key == KeyEvent.VK_UP){
-            shields[1].setDirection(-1);
-        }
-        if(key == KeyEvent.VK_DOWN){
-            shields[1].setDirection(1);
-        }
-    }
-    
-    public void keyReleased(KeyEvent e)
-    {
-        int key = e.getKeyCode();
-        if(key == KeyEvent.VK_W || key == KeyEvent.VK_S){
-            shields[0].setDirection(0);
-        }
-        if(key == KeyEvent.VK_UP || key == KeyEvent.VK_DOWN){
-            shields[1].setDirection(0);
-        }
-    }
+public class Stage extends JComponent implements KeyListener {
+	private Ball ball;
+	private Paddle[] paddles;
+	private Rectangle background;
+	private Rectangle[] walls;
+	private int top, bottom, left, right;
+	private double startingBallSpeed;
+	private double paddleSpeed;
+	public int score1, score2;
+	private int padding;
 
-    public void keyTyped(KeyEvent e)
-    {
-        //no functions
-    }
-    
-    public void paintComponent (Graphics g)
-    {
-        Graphics2D g2 = (Graphics2D)g;
-        g2.setColor(Color.black);
-        g2.fill(background);
-        g2.setColor(Color.white);
-        g2.fill(missile.getBall());
-        for (Paddle a: shields) {
-            g2.fill(a.getWall());
-        }
-        for (Rectangle a: walls) {
-            g2.fill(a);
-        }
-        g2.drawString("P1: " + score1, left + 35, top - 50);
-        g2.drawString("P2: " + score2, right - 55, top - 50);
-    }
-    
+	public Stage(int width, int height, int ballDiameter, int padding, double startingBallSpeed, double paddleSpeed) {
+		score1 = score2 = 0;
+		paddles = new Paddle[2];
+		walls = new Rectangle[4];
+		align(width, height, padding);
+
+		this.startingBallSpeed = startingBallSpeed;
+		ball = new Ball(top, bottom, left, right, ballDiameter, startingBallSpeed);
+
+		background = new Rectangle(0, 0, width, height);
+		this.paddleSpeed = paddleSpeed;
+
+	}
+
+	/**
+	 * Moves paddles around.
+	 */
+	public void movePaddles() {
+		for (Paddle paddle: paddles) {
+			paddle.move(top, bottom, left, right, (int) paddleSpeed);
+		}
+		repaint();
+	}
+
+	public void accelerateBall(double deltaMag, double lim) {
+		double increasedSpeed = ball.getSpeed() + deltaMag;
+		if (increasedSpeed > lim)
+			increasedSpeed = lim;
+		ball.accelerate(increasedSpeed);
+	}
+
+	public int track() {
+		int x = ball.getRectangle().x;
+		if (x <= left)
+			return 1;
+		if (x >= right)
+			return -1;
+		return 0;
+	}
+
+	public void bounceBall() {
+		ball.cruise();
+		Rectangle stats = ball.getRectangle();
+		if (stats.y <= top ||
+				stats.y + stats.height >= bottom) {
+			ball.reflect(1, -1);
+		}
+
+		for (Paddle a : paddles) {
+			if (ball.isCollide(a.getWall())) {
+				ball.reflect(-1, 1);
+			}
+		}
+	}
+
+	public void align(int width, int height, int padding) {
+		this.padding = padding;
+		top = padding * 2;
+		bottom = height - padding;
+		left = padding;
+		right = width - padding;
+
+		walls[0] = new Rectangle(0, top - padding, width, padding);
+		walls[1] = new Rectangle(0, bottom, width, padding);
+		walls[2] = new Rectangle(left - padding, top, padding, height);
+		walls[3] = new Rectangle(right, top, padding, height);
+
+		paddles[0] = new Paddle(-1, top, bottom, left, right);
+		paddles[1] = new Paddle(1, top, bottom, left, right);
+
+		background = new Rectangle(0, 0, width, height);
+		movePaddles();
+		repaint();
+	}
+
+	public void resetBall() {
+		ball.resetBall(top, bottom, left, right, startingBallSpeed);
+	}
+
+	public void keyPressed(KeyEvent e) {
+		switch (e.getKeyCode()) {
+			case KeyEvent.VK_W:
+				paddles[0].setDirection(-1);
+				break;
+			case KeyEvent.VK_S:
+				paddles[0].setDirection(1);
+				break;
+			case KeyEvent.VK_UP:
+				paddles[1].setDirection(-1);
+				break;
+			case KeyEvent.VK_DOWN:
+				paddles[1].setDirection(1);
+				break;
+		}
+	}
+
+	public void keyReleased(KeyEvent e) {
+		switch (e.getKeyCode()) {
+			case KeyEvent.VK_W:
+			case KeyEvent.VK_S:
+				paddles[0].setDirection(0);
+				break;
+			case KeyEvent.VK_UP:
+			case KeyEvent.VK_DOWN:
+				paddles[1].setDirection(0);
+				break;
+		}
+	}
+
+	public void keyTyped(KeyEvent e) {
+		//no functions
+	}
+
+	public void paintComponent(Graphics g) {
+		Graphics2D g2 = (Graphics2D) g;
+		g2.setColor(Color.black);
+		g2.fill(background);
+		g2.setColor(Color.white);
+		g2.fill(ball.getRectangle());
+		for (Paddle a : paddles) {
+			g2.fill(a.getWall());
+		}
+		for (Rectangle a : walls) {
+			g2.fill(a);
+		}
+		g2.drawString("P1: " + score1, left + 35, top - padding);
+		g2.drawString("P2: " + score2, right - 55, top - padding);
+	}
+
 }
 

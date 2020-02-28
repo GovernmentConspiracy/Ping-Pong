@@ -1,66 +1,53 @@
 
 /**
  * Write a description of class Paddle here.
- * 
- * @author (your name) 
+ *
+ * @author (your name)
  * @version (a version number or a date)
  */
+
 import java.awt.*;
 
-public class Paddle
-{
-    private double[] reflector;
-    private int direction;
-    private Rectangle wall;
-    int spacing;
-    int type;
-    public Paddle(int side, int t, int b, int l, int r)
-    {
-        type = side;
-        spacing = 30;
-        int w = 80/20;
-        int h = 80;
-        reflector = new double[] {-1, 1};
-        if (side < 0)
-        {
-            wall = new Rectangle(l + spacing, (t + b - h)/2, w, h);
-        }
-        else 
-        {
-            wall = new Rectangle(r - spacing - w, (t + b - h)/2, w, h);
-        }
-        direction = 0;
-    }
-    
-    public Rectangle getWall()
-    {
-        return wall;
-    }
-    
-    public double[] getReflector()
-    {
-        return reflector;
-    }
-    
-    public void setDirection(int way)
-    {
-        direction = way;
-    }
-    
-    public void move(int t, int b, int l, int r, int pSpeed)
-    {
-        wall.translate(0, direction*pSpeed);
-        if (wall.y < t) {
-            if (type < 0)
-                wall.setLocation(l + spacing, t);
-            else
-                wall.setLocation(r - spacing - wall.width, t);
-        }
-        if (wall.y + wall.height > b) {
-            if (type < 0)
-                wall.setLocation(l + spacing, b - wall.height);
-            else
-                wall.setLocation(r - spacing - wall.width, b - wall.height);
-        }
-    }
+public class Paddle {
+	private int direction;
+	private Rectangle wall;
+	int spacing;
+	int type;
+
+	public Paddle(int side, int top, int bottom, int left, int right) {
+		type = side;
+		spacing = 30;
+		int width = 80 / 20;
+		int height = 80;
+		if (side < 0) {
+			wall = new Rectangle(left + spacing, (top + bottom - height) / 2, width, height);
+		} else {
+			wall = new Rectangle(right - spacing - width, (top + bottom - height) / 2, width, height);
+		}
+		direction = 0;
+	}
+
+	public Rectangle getWall() {
+		return wall;
+	}
+
+	public void setDirection(int way) {
+		direction = way;
+	}
+
+	public void move(int top, int bottom, int left, int right, int paddleSpeed) {
+		wall.translate(0, direction * paddleSpeed);
+		if (wall.y < top) {
+			if (type < 0)
+				wall.setLocation(left + spacing, top);
+			else
+				wall.setLocation(right - spacing - wall.width, top);
+		}
+		if (wall.y + wall.height > bottom) {
+			if (type < 0)
+				wall.setLocation(left + spacing, bottom - wall.height);
+			else
+				wall.setLocation(right - spacing - wall.width, bottom - wall.height);
+		}
+	}
 }
