@@ -1,4 +1,4 @@
-# Attempt-at-Pong
+# Ping-Pong
 Pong
 
 
